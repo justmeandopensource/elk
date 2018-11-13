@@ -64,6 +64,7 @@ systemctl start kibana
 ```
 ###### Install Nginx
 ```
+yum install -y epel-release
 yum install -y nginx
 ```
 ###### Create Proxy configuration
