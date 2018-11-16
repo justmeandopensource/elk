@@ -10,16 +10,15 @@ client.example.com __(client machine)__
 ```
 yum install -y java-1.8.0-openjdk
 ```
-### Elasticsearch
 ###### Import PGP Key
 ```
 rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 ```
 ###### Create Yum repository
 ```
-cat >>/etc/yum.repos.d/elasticsearch.repo<<EOF
-[elasticsearch-6.x]
-name=Elasticsearch repository for 6.x packages
+cat >>/etc/yum.repos.d/elk.repo<<EOF
+[ELK-6.x]
+name=ELK repository for 6.x packages
 baseurl=https://artifacts.elastic.co/packages/6.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
@@ -28,6 +27,7 @@ autorefresh=1
 type=rpm-md
 EOF
 ```
+### Elasticsearch
 ###### Install Elasticsearch
 ```
 yum install -y elasticsearch
@@ -39,19 +39,6 @@ systemctl enable elasticsearch
 systemctl start elasticsearch
 ```
 ### Kibana
-###### Create Yum repository
-```
-cat >>/etc/yum.repos.d/kibana.repo<<EOF
-[kibana-6.x]
-name=Kibana repository for 6.x packages
-baseurl=https://artifacts.elastic.co/packages/6.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-EOF
-```
 ###### Install kibana
 ```
 yum install -y kibana
@@ -87,19 +74,6 @@ systemctl enable nginx
 systemctl start nginx
 ```
 ### Logstash
-###### Create Yum repository
-```
-cat >>/etc/yum.repos.d/logstash.repo<<EOF
-[logstash-6.x]
-name=Elastic repository for 6.x packages
-baseurl=https://artifacts.elastic.co/packages/6.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-EOF
-```
 ###### Install logstash
 ```
 yum install -y logstash
@@ -154,9 +128,9 @@ systemctl start logstash
 ## FileBeat installation on client.example.com
 ###### Create Yum repository
 ```
-cat >>/etc/yum.repos.d/elasticsearch.repo<<EOF
-[elasticsearch-6.x]
-name=Elasticsearch repository for 6.x packages
+cat >>/etc/yum.repos.d/elk.repo<<EOF
+[ELK-6.x]
+name=ELK repository for 6.x packages
 baseurl=https://artifacts.elastic.co/packages/6.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
@@ -182,8 +156,5 @@ systemctl start filebeat
 ```
 ### Configure Kibana Dashboard
 All done. Now you can head to Kibana dashboard and add the index.
-
-
-
 
 
