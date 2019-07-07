@@ -50,3 +50,33 @@ elastalert-test-rule --config config.yaml example_rules/example_frequency.yaml
 ```
 python -m elastalert.elastalert --verbose --rule example_frequency.yaml
 ```
+
+## Postfix Gmail SMTP
+Enable 2-factor authentication and Generate app password
+
+### Install Postfix
+```
+sudo apt-get install postfix mailutils libsasl2-2 ca-certificates libsasl2-modules
+```
+
+### Postfix configuration to add
+```
+relayhost = [smtp.gmail.com]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+smtp_tls_CApath = /etc/ssl/certs
+smtpd_tls_CApath = /etc/ssl/certs
+smtp_use_tls = yes
+```
+```
+cat /etc/postfix/sasl_passwd
+[smtp.gmail.com]:587	server.jbs@gmail.com:qpdm vkxv hdpc boja
+sudo chmod 400 /etc/postfix/sasl_passwd
+sudo postmap /etc/postfix/sasl_passwd
+sudo systemctl restart postfix
+```
+```
+echo "Testing" | mail -s "Test Email" server.jbs@gmail.com
+sudo postqueue -p
+```
